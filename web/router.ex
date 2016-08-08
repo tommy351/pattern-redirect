@@ -17,6 +17,15 @@ defmodule PatternRedirect.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    get "/signup", UserController, :new
+    post "/signup", UserController, :create
+
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
+
+    resources "/users", UserController, only: [:show, :update, :delete]
   end
 
   # Other scopes may use custom stacks.

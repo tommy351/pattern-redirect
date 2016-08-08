@@ -1,0 +1,4 @@
+ID: <%= @user.id %>
+Name: <%= @user.name %>
+Email: <%= @user.email %>
+<a href="<%= session_path(@conn, :delete) %>">Log out</a>
