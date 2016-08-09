@@ -1,0 +1,5 @@
+Rule: <%= @pattern.rule %>
+Target: <%= @pattern.target %>
+
+<a href="<%= pattern_path(@conn, :edit, @pattern.id) %>">Edit</a>
+<%= button("Delete", to: pattern_path(@conn, :delete, @pattern.id), method: :delete) %>

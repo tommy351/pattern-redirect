@@ -1,4 +1,5 @@
 ID: <%= @user.id %>
 Name: <%= @user.name %>
 Email: <%= @user.email %>
+<a href="<%= pattern_path(@conn, :new) %>">New pattern</a>
 <a href="<%= session_path(@conn, :delete) %>">Log out</a>

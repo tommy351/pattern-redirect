@@ -26,6 +26,7 @@ defmodule PatternRedirect.Router do
     get "/logout", SessionController, :delete
 
     resources "/users", UserController, only: [:show, :update, :delete]
+    resources "/patterns", PatternController
   end
 
   # Other scopes may use custom stacks.

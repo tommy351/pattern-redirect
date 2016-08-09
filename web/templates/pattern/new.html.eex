@@ -1,0 +1,13 @@
+New pattern
+
+<%= form_for @changeset, pattern_path(@conn, :create), fn f -> %>
+  <label>
+    Rule: <%= text_input f, :rule %>
+  </label>
+
+  <label>
+    Target: <%= text_input f, :target %>
+  </label>
+
+  <%= submit "Submit" %>
+<% end %>
