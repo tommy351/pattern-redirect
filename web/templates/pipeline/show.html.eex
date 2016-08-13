@@ -20,8 +20,10 @@ Name: <%= @pipeline.name %>
 
 <%= for item <- @pipeline_items do %>
   <li>
-    <%= item.pattern.name %>
-    <%= button("Delete", to: pipeline_item_path(@conn, :delete, item.id), method: :delete) %>
+    <a href="<%= pattern_path(@conn, :show, item.pattern_id) %>"><%= item.pattern.name %></a>
+    <%= if is_author?(@conn, @pipeline) do %>
+      <%= button("Delete", to: pipeline_item_path(@conn, :delete, item.id), method: :delete) %>
+    <% end %>
   </li>
 <% end %>
 
