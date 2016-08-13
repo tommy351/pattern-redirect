@@ -9,20 +9,15 @@ defmodule PatternRedirect.PipelineController do
 
   def new(conn, _) do
     changeset = Pipeline.changeset(%Pipeline{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, title: "New pipeline")
   end
 
   def create(conn, params) do
     pipeline = %Pipeline{user_id: get_session(conn, :user_id)}
     changeset = Pipeline.changeset(pipeline, params["pipeline"])
+    {:ok, pipeline} = Repo.insert(changeset)
 
-    case Repo.insert(changeset) do
-      {:ok, pipeline} ->
-        redirect(conn, to: pipeline_path(conn, :show, pipeline.id))
-
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    redirect(conn, to: pipeline_path(conn, :show, pipeline.id))
   end
 
   def show(%Plug.Conn{assigns: %{pipeline: pipeline}, query_params: %{"go" => go}} = conn, _) when go != "" do
@@ -49,34 +44,26 @@ defmodule PatternRedirect.PipelineController do
 
   def show(%Plug.Conn{assigns: %{pipeline: pipeline}} = conn, _) do
     render(conn, "show.html", pipeline: pipeline,
+                              title: pipeline.name,
                               pipeline_items: fetch_pipeline_items(pipeline.id))
   end
 
   def edit(%Plug.Conn{assigns: %{pipeline: pipeline}} = conn, _) do
     changeset = Pipeline.changeset(pipeline)
-    render(conn, "edit.html", changeset: changeset)
+    render(conn, "edit.html", changeset: changeset, title: "Edit pipeline")
   end
 
   def update(%Plug.Conn{assigns: %{pipeline: pipeline}} = conn, params) do
     changeset = Pipeline.changeset(pipeline, params["pipeline"])
+    {:ok, pipeline} = Repo.update(changeset)
 
-    case Repo.update(changeset) do
-      {:ok, pipeline} ->
-        redirect(conn, to: pipeline_path(conn, :show, pipeline.id))
-
-      {:error, changeset} ->
-        render(conn, "edit.html", changeset: changeset) 
-    end
+    redirect(conn, to: pipeline_path(conn, :show, pipeline.id))
   end
 
   def delete(%Plug.Conn{assigns: %{pipeline: pipeline}} = conn, _) do
-    case Repo.delete(pipeline) do
-      {:ok, _} ->
-        redirect(conn, to: user_path(conn, :show, get_session(conn, :user_id)))
+    {:ok, _} = Repo.delete(pipeline)
 
-      {:error, _} ->
-        render(conn, "show.html", pipeline: pipeline)
-    end
+    redirect(conn, to: user_path(conn, :show, get_session(conn, :user_id)))
   end
 
   defp fetch_pipeline(%Plug.Conn{params: %{"id" => id}} = conn, _) do

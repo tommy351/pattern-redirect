@@ -7,20 +7,15 @@ defmodule PatternRedirect.PatternController do
 
   def new(conn, _) do
     changeset = Pattern.changeset(%Pattern{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, title: "New pattern")
   end
 
   def create(conn, params) do
     pattern = %Pattern{user_id: get_session(conn, :user_id)}
     changeset = Pattern.changeset(pattern, params["pattern"])
+    {:ok, pattern} = Repo.insert(changeset)
 
-    case Repo.insert(changeset) do
-      {:ok, pattern} ->
-        redirect(conn, to: pattern_path(conn, :show, pattern.id))
-      
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    redirect(conn, to: pattern_path(conn, :show, pattern.id))
   end
 
   def show(%Plug.Conn{assigns: %{pattern: pattern}, query_params: %{"go" => go}} = conn, _) when go != "" do
@@ -34,34 +29,24 @@ defmodule PatternRedirect.PatternController do
   end
 
   def show(%Plug.Conn{assigns: %{pattern: pattern}} = conn, _) do
-    render(conn, "show.html", pattern: pattern)
+    render(conn, "show.html", pattern: pattern, title: pattern.name)
   end
 
   def edit(%Plug.Conn{assigns: %{pattern: pattern}} = conn, params) do
     changeset = Pattern.changeset(pattern)
-    render(conn, "edit.html", changeset: changeset)
+    render(conn, "edit.html", changeset: changeset, title: "Edit pattern")
   end
 
   def update(%Plug.Conn{assigns: %{pattern: pattern}} = conn, params) do
     changeset = Pattern.changeset(pattern, params["pattern"])
+    {:ok, pattern} = Repo.update(changeset)
 
-    case Repo.update(changeset) do
-      {:ok, pattern} ->
-        redirect(conn, to: pattern_path(conn, :show, pattern.id))
-        
-      {:error, changeset} ->
-        render(conn, "edit.html", changeset: changeset)
-    end
+    redirect(conn, to: pattern_path(conn, :show, pattern.id))
   end
 
   def delete(%Plug.Conn{assigns: %{pattern: pattern}} = conn, params) do
-    case Repo.delete(pattern) do
-      {:ok, _} ->
-        redirect(conn, to: user_path(conn, :show, get_session(conn, :user_id)))
-
-      {:error, _} ->
-        render(conn, "show.html", pattern: pattern)
-    end
+    {:ok, _} = Repo.delete(pattern)
+    redirect(conn, to: user_path(conn, :show, get_session(conn, :user_id)))
   end
 
   defp fetch_pattern(%Plug.Conn{params: %{"id" => id}} = conn, _) do
