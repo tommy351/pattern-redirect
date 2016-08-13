@@ -4,22 +4,15 @@ defmodule PatternRedirect.SessionController do
   alias PatternRedirect.User
   
   def new(conn, _) do
-    render(conn, "new.html")
+    render(conn, "new.html", title: "Log in")
   end
 
   def create(conn, %{"session" => form}) do
-    case Repo.get_by(User, email: form["email"]) do
-      nil ->
-        render(conn, "new.html")
+    user = Repo.get_by(User, email: form["email"])
+    true = checkpw(form["password"], user.password)
 
-      user ->
-        if checkpw(form["password"], user.password) do
-          put_session(conn, :user_id, user.id)
-          |> redirect(to: user_path(conn, :show, user.id))
-        else
-          render(conn, "new.html")
-        end
-    end
+    put_session(conn, :user_id, user.id)
+    |> redirect(to: user_path(conn, :show, user.id))
   end
 
   def delete(conn, _) do

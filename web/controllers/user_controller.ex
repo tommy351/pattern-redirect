@@ -9,43 +9,34 @@ defmodule PatternRedirect.UserController do
 
   def new(conn, _) do
     changeset = User.changeset(%User{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, title: "Sign up")
   end
 
   def create(conn, params) do
     changeset = User.changeset(%User{}, params["user"])
+    {:ok, user} = Repo.insert(changeset)
 
-    case Repo.insert(changeset) do
-      {:ok, user} ->
-        put_session(conn, :user_id, user.id)
-        |> redirect(to: user_path(conn, :show, user.id))
-      
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    put_session(conn, :user_id, user.id)
+    |> redirect(to: user_path(conn, :show, user.id))
   end
 
   def show(%Plug.Conn{assigns: %{user: user}} = conn, _) do
     render(conn, "show.html", user: user,
+                              title: user.name,
                               patterns: fetch_patterns(user.id),
                               pipelines: fetch_pipelines(user.id))
   end
 
   def edit(%Plug.Conn{assigns: %{user: user}} = conn, _) do
     changeset = User.changeset(user)
-    render(conn, "edit.html", changeset: changeset)
+    render(conn, "edit.html", changeset: changeset, title: "Edit user")
   end
 
   def update(%Plug.Conn{assigns: %{user: user}} = conn, params) do
     changeset = User.changeset(user, params["user"])
+    {:ok, user} = Repo.update(changeset)
 
-    case Repo.update(changeset) do
-      {:ok, user} ->
-        redirect(conn, to: user_path(conn, :show, user.id))
-
-      {:error, changeset} ->
-        render(conn, "edit.html", changeset: changeset)
-    end
+    redirect(conn, to: user_path(conn, :show, user.id))
   end
 
   def delete(conn, _) do

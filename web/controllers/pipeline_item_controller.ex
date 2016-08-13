@@ -11,6 +11,7 @@ defmodule PatternRedirect.PipelineItemController do
     changeset = PipelineItem.changeset(%PipelineItem{pipeline_id: pipeline.id})
 
     render(conn, "new.html", changeset: changeset,
+                             title: "Add to pipeline",
                              patterns: fetch_available_patterns(conn))
   end
 
