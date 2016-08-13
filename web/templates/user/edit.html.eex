@@ -1,0 +1,17 @@
+Edit user
+
+<%= form_for @changeset, user_path(@conn, :update, @changeset.data.id), fn f -> %>
+  <label>
+    Name: <%= text_input f, :name %>
+  </label>
+
+  <label>
+    Email: <%= text_input f, :email %>
+  </label>
+
+  <label>
+    Password: <%= text_input f, :password %>
+  </label>
+
+  <%= submit "Submit" %>
+<% end %>

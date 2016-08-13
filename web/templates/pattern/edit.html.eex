@@ -1,6 +1,10 @@
 Edit pattern
 
-<%= form_for @changeset, pattern_path(@conn, :update, @params["id"]), fn f -> %>
+<%= form_for @changeset, pattern_path(@conn, :update, @changeset.data.id), fn f -> %>
+  <label>
+    Name: <%= text_input f, :name %>
+  </label>
+
   <label>
     Rule: <%= text_input f, :rule %>
   </label>

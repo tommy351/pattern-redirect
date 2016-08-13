@@ -16,8 +16,13 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><a href="<%= session_path(@conn, :new) %>">Log in</a></li>
-            <li><a href="<%= user_path(@conn, :new) %>">Sign up</a></li>
+            <%= if is_login?(@conn) do %>
+              <li><a href="<%= user_path(@conn, :show, @session_user.id) %>">Dashboard</a></li>
+              <li><a href="<%= session_path(@conn, :delete) %>">Log out</a></li>
+            <% else %>
+              <li><a href="<%= session_path(@conn, :new) %>">Log in</a></li>
+              <li><a href="<%= user_path(@conn, :new) %>">Sign up</a></li>
+            <% end %>
           </ul>
         </nav>
         <span class="logo"></span>

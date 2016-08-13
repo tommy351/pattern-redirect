@@ -1,0 +1,9 @@
+Edit pipeline
+
+<%= form_for @changeset, pipeline_path(@conn, :update, @changeset.data.id), fn f -> %>
+  <label>
+    Name: <%= text_input f, :name %>
+  </label>
+
+  <%= submit "Submit" %>
+<% end %>

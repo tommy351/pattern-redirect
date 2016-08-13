@@ -1,5 +1,13 @@
-Rule: <%= @pattern.rule %>
-Target: <%= @pattern.target %>
+Name: <%= @pattern.name %>
+Rule: <code><%= @pattern.rule %></code>
+Target: <code><%= @pattern.target %></code>
 
-<a href="<%= pattern_path(@conn, :edit, @pattern.id) %>">Edit</a>
-<%= button("Delete", to: pattern_path(@conn, :delete, @pattern.id), method: :delete) %>
+<%= if is_author?(@conn, @pattern) do %>
+  <a href="<%= pattern_path(@conn, :edit, @pattern.id) %>">Edit</a>
+  <%= button("Delete", to: pattern_path(@conn, :delete, @pattern.id), method: :delete) %>
+<% end %>
+
+<form action="<%= pattern_path(@conn, :show, @pattern.id) %>" method="GET">
+  <input type="text" name="go">
+  <button type="submit">Go</button>
+</form>

@@ -1,0 +1,9 @@
+New pipeline
+
+<%= form_for @changeset, pipeline_path(@conn, :create), fn f -> %>
+  <label>
+    Name: <%= text_input f, :name %>
+  </label>
+
+  <%= submit "Submit" %>
+<% end %>

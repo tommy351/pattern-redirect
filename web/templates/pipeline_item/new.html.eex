@@ -1,0 +1,7 @@
+New item
+
+<%= form_for @changeset, pipeline_item_path(@conn, :create, @changeset.data.pipeline_id), fn f -> %>
+  <%= select f, :pattern_id, pattern_options(@patterns) %>
+
+  <%= submit "Submit" %>
+<% end %>

@@ -2,6 +2,10 @@ New pattern
 
 <%= form_for @changeset, pattern_path(@conn, :create), fn f -> %>
   <label>
+    Name: <%= text_input f, :name %>
+  </label>
+
+  <label>
     Rule: <%= text_input f, :rule %>
   </label>
 

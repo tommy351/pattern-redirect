@@ -1,0 +1,28 @@
+Name: <%= @pipeline.name %>
+
+<%= if is_author?(@conn, @pipeline) do %>
+  <a href="<%= pipeline_path(@conn, :edit, @pipeline.id) %>">Edit</a>
+  <%= button("Delete", to: pipeline_path(@conn, :delete, @pipeline.id), method: :delete) %>
+<% end %>
+
+<form action="<%= pipeline_path(@conn, :show, @pipeline.id) %>" method="GET">
+  <input type="text" name="go">
+  <button type="submit">Go</button>
+</form>
+
+<h2>Patterns</h2>
+
+<%= if is_author?(@conn, @pipeline) do %>
+  <a href="<%= pipeline_item_path(@conn, :new, @pipeline.id) %>">New item</a> 
+<% end %>
+
+<ul>
+
+<%= for item <- @pipeline_items do %>
+  <li>
+    <%= item.pattern.name %>
+    <%= button("Delete", to: pipeline_item_path(@conn, :delete, item.id), method: :delete) %>
+  </li>
+<% end %>
+
+</ul>

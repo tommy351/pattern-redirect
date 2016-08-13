@@ -3,7 +3,7 @@ defmodule PatternRedirect.SessionController do
   import Comeonin.Bcrypt
   alias PatternRedirect.User
   
-  def new(conn, _params) do
+  def new(conn, _) do
     render(conn, "new.html")
   end
 
@@ -22,7 +22,7 @@ defmodule PatternRedirect.SessionController do
     end
   end
 
-  def delete(conn, _params) do
+  def delete(conn, _) do
     clear_session(conn)
     |> redirect(to: session_path(conn, :create))
   end
