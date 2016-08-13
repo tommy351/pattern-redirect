@@ -1,6 +1,5 @@
 defmodule PatternRedirect.PipelineController do
   use PatternRedirect.Web, :controller
-  import Ecto.Changeset
   alias PatternRedirect.Pipeline
   alias PatternRedirect.PipelineItem
   alias PatternRedirect.Pattern
@@ -14,8 +13,8 @@ defmodule PatternRedirect.PipelineController do
   end
 
   def create(conn, params) do
-    changeset = Pipeline.changeset(%Pipeline{}, params["pipeline"])
-    |> put_change(:user_id, get_session(conn, :user_id))
+    pipeline = %Pipeline{user_id: get_session(conn, :user_id)}
+    changeset = Pipeline.changeset(pipeline, params["pipeline"])
 
     case Repo.insert(changeset) do
       {:ok, pipeline} ->

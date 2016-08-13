@@ -1,17 +1,20 @@
-Edit pattern
+<h2>Edit pattern</h2>
 
 <%= form_for @changeset, pattern_path(@conn, :update, @changeset.data.id), fn f -> %>
-  <label>
-    Name: <%= text_input f, :name %>
-  </label>
+  <div class="form-group">
+    <label id="user-name">Name</label> 
+    <%= text_input f, :name, id: "pattern-name", class: "form-control" %>
+  </div>
 
-  <label>
-    Rule: <%= text_input f, :rule %>
-  </label>
+  <div class="form-group">
+    <label id="user-rule">Rule</label> 
+    <%= text_input f, :rule, id: "user-rule", class: "form-control" %>
+  </div>
 
-  <label>
-    Target: <%= text_input f, :target %>
-  </label>
+  <div class="form-group">
+    <label id="user-target">Target</label> 
+    <%= text_input f, :target, id: "user-target", class: "form-control" %>
+  </div>
 
-  <%= submit "Submit" %>
+  <%= submit "Submit", class: "btn btn-primary" %>
 <% end %>

@@ -1,7 +1,10 @@
-New item
+<h2>Add to pipeline</h2>
 
 <%= form_for @changeset, pipeline_item_path(@conn, :create, @changeset.data.pipeline_id), fn f -> %>
-  <%= select f, :pattern_id, pattern_options(@patterns) %>
+  <div class="form-group">
+    <label id="pipeline-pattern">Pattern</label>
+    <%= select f, :pattern_id, pattern_options(@patterns), id: "pipeline-pattern", class: "form-control" %>
+  </div>
 
-  <%= submit "Submit" %>
+  <%= submit "Submit", class: "btn btn-primary" %>
 <% end %>

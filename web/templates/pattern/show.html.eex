@@ -1,13 +1,24 @@
-Name: <%= @pattern.name %>
-Rule: <code><%= @pattern.rule %></code>
+<header class="clearfix">
+  <div class="pull-left">
+    <h2><%= @pattern.name %></h2>
+  </div>
+
+  <div class="pull-right">
+    <form action="<%= pattern_path(@conn, :show, @pattern.id) %>" method="GET" class="pull-left form-inline">
+      <div class="form-group">
+        <input class="form-control" type="text" name="go">
+        <button class="btn btn-primary" type="submit">Go</button>
+      </div>
+    </form>
+
+    <%= if is_author?(@conn, @pattern) do %>
+      <a class="btn btn-default pull-left" href="<%= pattern_path(@conn, :edit, @pattern.id) %>">Edit</a>
+      <div class="pull-left">
+        <%= button "Delete", to: pattern_path(@conn, :delete, @pattern.id), method: :delete, class: "btn btn-danger" %>
+      </div>
+    <% end %>
+  </div>
+</header>
+
+Rule: <code><%= @pattern.rule %></code><br>
 Target: <code><%= @pattern.target %></code>
-
-<%= if is_author?(@conn, @pattern) do %>
-  <a href="<%= pattern_path(@conn, :edit, @pattern.id) %>">Edit</a>
-  <%= button("Delete", to: pattern_path(@conn, :delete, @pattern.id), method: :delete) %>
-<% end %>
-
-<form action="<%= pattern_path(@conn, :show, @pattern.id) %>" method="GET">
-  <input type="text" name="go">
-  <button type="submit">Go</button>
-</form>

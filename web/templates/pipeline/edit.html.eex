@@ -1,9 +1,10 @@
-Edit pipeline
+<h2>Edit pipeline</h2>
 
 <%= form_for @changeset, pipeline_path(@conn, :update, @changeset.data.id), fn f -> %>
-  <label>
-    Name: <%= text_input f, :name %>
-  </label>
+  <div class="form-group">
+    <label id="pipeline-name">Name</label> 
+    <%= text_input f, :name, id: "pipeline-name", class: "form-control" %>
+  </div>
 
-  <%= submit "Submit" %>
+  <%= submit "Submit",  class: "btn btn-primary" %>
 <% end %>

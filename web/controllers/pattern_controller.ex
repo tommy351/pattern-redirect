@@ -1,6 +1,5 @@
 defmodule PatternRedirect.PatternController do
   use PatternRedirect.Web, :controller
-  import Ecto.Changeset
   alias PatternRedirect.Pattern
 
   plug :fetch_pattern
@@ -12,8 +11,8 @@ defmodule PatternRedirect.PatternController do
   end
 
   def create(conn, params) do
-    changeset = Pattern.changeset(%Pattern{}, params["pattern"])
-    |> put_change(:user_id, get_session(conn, :user_id))
+    pattern = %Pattern{user_id: get_session(conn, :user_id)}
+    changeset = Pattern.changeset(pattern, params["pattern"])
 
     case Repo.insert(changeset) do
       {:ok, pattern} ->

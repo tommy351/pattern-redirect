@@ -1,17 +1,18 @@
-Edit user
-
 <%= form_for @changeset, user_path(@conn, :update, @changeset.data.id), fn f -> %>
-  <label>
-    Name: <%= text_input f, :name %>
-  </label>
+  <div class="form-group">
+    <label id="user-name">Name</label> 
+    <%= text_input f, :name, id: "user-name", class: "form-control" %>
+  </div>
 
-  <label>
-    Email: <%= text_input f, :email %>
-  </label>
+  <div class="form-group">
+    <label id="user-email">Email</label> 
+    <%= email_input f, :email, id: "user-email", class: "form-control" %>
+  </div>
 
-  <label>
-    Password: <%= text_input f, :password %>
-  </label>
+  <div class="form-group">
+    <label id="user-password">Password</label> 
+    <%= password_input f, :password, id: "user-password", class: "form-control" %>
+  </div>
 
-  <%= submit "Submit" %>
+  <%= submit "Submit", class: "btn btn-primary" %>
 <% end %>

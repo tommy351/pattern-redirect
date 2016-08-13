@@ -1,30 +1,46 @@
-Name: <%= @pipeline.name %>
+<header class="clearfix">
+  <div class="pull-left">
+    <h2><%= @pipeline.name %></h2>
+  </div>
 
-<%= if is_author?(@conn, @pipeline) do %>
-  <a href="<%= pipeline_path(@conn, :edit, @pipeline.id) %>">Edit</a>
-  <%= button("Delete", to: pipeline_path(@conn, :delete, @pipeline.id), method: :delete) %>
-<% end %>
+  <div class="pull-right">
+    <form action="<%= pipeline_path(@conn, :show, @pipeline.id) %>" method="GET" class="pull-left form-inline">
+      <div class="form-group">
+        <input class="form-control" type="text" name="go">
+        <button class="btn btn-primary" type="submit">Go</button>
+      </div>
+    </form>
 
-<form action="<%= pipeline_path(@conn, :show, @pipeline.id) %>" method="GET">
-  <input type="text" name="go">
-  <button type="submit">Go</button>
-</form>
-
-<h2>Patterns</h2>
-
-<%= if is_author?(@conn, @pipeline) do %>
-  <a href="<%= pipeline_item_path(@conn, :new, @pipeline.id) %>">New item</a> 
-<% end %>
-
-<ul>
-
-<%= for item <- @pipeline_items do %>
-  <li>
-    <a href="<%= pattern_path(@conn, :show, item.pattern_id) %>"><%= item.pattern.name %></a>
     <%= if is_author?(@conn, @pipeline) do %>
-      <%= button("Delete", to: pipeline_item_path(@conn, :delete, item.id), method: :delete) %>
+      <a class="btn btn-default pull-left" href="<%= pipeline_path(@conn, :edit, @pipeline.id) %>">Edit</a>
+      <div class="pull-left">
+        <%= button "Delete", to: pipeline_path(@conn, :delete, @pipeline.id), method: :delete, class: "btn btn-danger" %>
+      </div>
     <% end %>
-  </li>
-<% end %>
+  </div>
+</header>
 
+<header class="clearfix">
+  <h3 class="pull-left">Patterns</h3>
+
+  <%= if is_author?(@conn, @pipeline) do %>
+    <div class="pull-right">
+      <a class="btn btn-primary" href="<%= pipeline_item_path(@conn, :new, @pipeline.id) %>">New</a>
+    </div>
+  <% end %>
+</header>
+
+<div class="list-group">
+  <%= for item <- @pipeline_items do %>
+    <div class="list-group-item clearfix">
+      <div class="pull-left">
+        <a href="<%= pattern_path(@conn, :show, item.pattern_id) %>"><%= item.pattern.name %></a>
+      </div>
+      <%= if is_author?(@conn, @pipeline) do %>
+        <div class="pull-right">
+          <%= button "Delete", to: pipeline_item_path(@conn, :delete, item.id), method: :delete, class: "btn btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </ul>

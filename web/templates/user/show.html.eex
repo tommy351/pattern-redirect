@@ -1,34 +1,43 @@
-Name: <%= @user.name %>
-Email: <%= @user.email %>
+<header class="clearfix">
+  <div class="pull-left">
+    <h2><%= @user.name %></h2>
+  </div>
 
-<%= if is_current_user?(@conn, @user) do %> 
-  <a href="<%= user_path(@conn, :edit, @user.id) %>">Edit</a>
-<% end %>
+  <%= if is_current_user?(@conn, @user) do %>
+    <div class="pull-right">
+      <a class="btn btn-default" href="<%= user_path(@conn, :edit, @user.id) %>">Edit</a>
+    </div>
+  <% end %>
+</header>
 
-<h2>Patterns</h2>
+<header class="clearfix">
+  <h3 class="pull-left">Patterns</h3>
 
-<%= if is_current_user?(@conn, @user) do %>
-  <a href="<%= pattern_path(@conn, :new) %>">New pattern</a>
-<% end %>
+  <%= if is_current_user?(@conn, @user) do %>
+    <div class="pull-right">
+      <a class="btn btn-primary" href="<%= pattern_path(@conn, :new) %>">New</a>
+    </div>
+  <% end %>
+</header>
 
-<ul>
+<div class="list-group">
+  <%= for pattern <- @patterns do %>
+    <a class="list-group-item" href="<%= pattern_path(@conn, :show, pattern.id) %>"><%= pattern.name %></a>
+  <% end %>
+</div>
 
-<%= for pattern <- @patterns do %>
-  <li><a href="<%= pattern_path(@conn, :show, pattern.id) %>"><%= pattern.name %></a></li>
-<% end %>
+<header class="clearfix">
+  <h3 class="pull-left">Pipelines</h3>
 
-</ul>
+  <%= if is_current_user?(@conn, @user) do %>
+    <div class="pull-right">
+      <a class="btn btn-primary" href="<%= pipeline_path(@conn, :new) %>">New</a>
+    </div>
+  <% end %>
+</header>
 
-<h2>Pipelines</h2>
-
-<%= if is_current_user?(@conn, @user) do %>
-  <a href="<%= pipeline_path(@conn, :new) %>">New pipeline</a>
-<% end %>
-
-<ul>
-
-<%= for pipeline <- @pipelines do %>
-  <li><a href="<%= pipeline_path(@conn, :show, pipeline.id) %>"><%= pipeline.name %></a></li>
-<% end %>
-
-</ul>
+<div class="list-group">
+  <%= for pipeline <- @pipelines do %>
+    <a class="list-group-item" href="<%= pipeline_path(@conn, :show, pipeline.id) %>"><%= pipeline.name %></a>
+  <% end %>
+</div>
